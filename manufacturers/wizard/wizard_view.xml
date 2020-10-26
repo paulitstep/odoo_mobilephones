@@ -1,0 +1,51 @@
+<odoo>
+  <data>
+
+    <record id="wizard_form_view" model="ir.ui.view">
+      <field name="model">product.template.wizard</field>
+      <field name="arch" type="xml">
+        <form>
+          <field invisible="1" name="state"/>
+
+          <group states="step1">
+            <field name="type"/>
+            <field name="categ_id"/>
+            <field name="sale_ok"/>
+            <field name="purchase_ok"/>
+            <field name="default_code"/>
+            <field name="manufacturer_id"/>
+            <field name="model_id" domain="[('manufacturer_id','in',[manufacturer_id])]"/>
+            <field name="name"/>
+          </group>
+          <group states="step2">
+            <field name="image_medium"/>
+          </group>
+          <footer states="step1">
+            <button name="action_step2" type="object" string="Next"/>
+            or
+            <button special="cancel" string="Cancel"/>
+          </footer>
+          <footer states="step2">
+            <button name="action_step1" type="object" string="Previous"/>
+            or
+            <button special="cancel" string="Cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="quick_create_product" model="ir.actions.act_window">
+      <field name="name">Quick Create Product</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">product.template.wizard</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="wizard_form_view"/>
+      <field name="target">new</field>
+    </record>
+
+    <menuitem name="Quick Create Product" id="menu_quick_create_product_mobile"
+      parent="sale.product_menu_catalog" sequence="5"
+      action="quick_create_product"/>
+
+  </data>
+</odoo>
